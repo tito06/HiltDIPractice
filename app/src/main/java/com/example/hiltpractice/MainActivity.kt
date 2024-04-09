@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -21,10 +22,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -39,6 +41,7 @@ class MainActivity : ComponentActivity() {
     //val userViewModel by viewModels<UserViewModel>()
 
     private val userViewModel:UserViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -48,22 +51,75 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    UserList(userList = userViewModel.userList)
-                    userViewModel.getUserList()
+                    /*UserList(userList = userViewModel.userList.collectAsState())
+                    userViewModel.getUserList()*/
 
                     /* MovieList(movieList = userViewModel.movieListResponse)
                      userViewModel.getMovieList()*/
+
+                    EmployeList(employeeList = userViewModel.employeeList.collectAsState())
+                    userViewModel.getEmployeeList()
                 }
             }
         }
     }
 }
 
+
 @Composable
-fun UserList(userList: List<UserData>){
+fun EmployeList(employeeList: State<List<Employee>>){
+
     LazyColumn{
-        itemsIndexed(items = userList){index, item ->
+        items(employeeList.value){
+            Employee(employee = it)
+        }
+    }
+
+}
+
+@Composable
+fun Employee(employee: Employee){
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .height(110.dp)
+        .padding(8.dp, 4.dp),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+
+        Row(modifier = Modifier
+            .padding(4.dp)
+            .fillMaxSize()) {
+
+
+            Column ( verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .fillMaxHeight()
+                    .weight(0.8f)){
+
+                Text(
+                    text = employee.employee_name,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Text(text = employee.employee_salary.toString())
+
+            }
+
+        }
+
+    }
+}
+
+@Composable
+fun UserList(userList: State<List<UserData>>){
+    LazyColumn{
+       /* itemsIndexed(items = userList){index, item ->
             User(userResponse = item)
+        }*/
+
+        items(userList.value){
+            User(userResponse = it)
         }
     }
 }
