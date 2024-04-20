@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.size.Scale
@@ -57,8 +58,10 @@ class MainActivity : ComponentActivity() {
                     /* MovieList(movieList = userViewModel.movieListResponse)
                      userViewModel.getMovieList()*/
 
-                    EmployeList(employeeList = userViewModel.employeeList.collectAsState())
-                    userViewModel.getEmployeeList()
+                    EmployeeList(employeeList = userViewModel.employeeList.collectAsState())
+                    userViewModel.getEmployee()
+
+
                 }
             }
         }
@@ -67,18 +70,16 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun EmployeList(employeeList: State<List<Employee>>){
-
+fun EmployeeList(employeeList: State<List<EmployeeData>>){
     LazyColumn{
         items(employeeList.value){
-            Employee(employee = it)
+            Employee(it)
         }
     }
-
 }
 
 @Composable
-fun Employee(employee: Employee){
+fun Employee(employee:EmployeeData){
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(110.dp)
@@ -87,9 +88,20 @@ fun Employee(employee: Employee){
     ) {
 
         Row(modifier = Modifier
-            .padding(4.dp)
+            .padding(5.dp)
             .fillMaxSize()) {
+/*
+                Image(
+                    painter = rememberImagePainter(data = userResponse.avatar,
+                        builder = {
+                            scale(Scale.FILL)
+                            transformations(CircleCropTransformation())
 
+                        }),
+                    contentDescription = userResponse.id.toString(),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(0.2f))*/
 
             Column ( verticalArrangement = Arrangement.Center,
                 modifier = Modifier

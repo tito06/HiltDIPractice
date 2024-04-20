@@ -7,12 +7,14 @@ import retrofit2.http.Query
 interface ApiService {
     @GET("api/users")
     suspend fun getUsers(
-      //  @Query("page") page:Int
+        //  @Query("page") page:Int
     ): Response<UserResponse>
 
     @GET("movielist.json")
-    suspend fun getMovies() : List<Movie>
+    suspend fun getMovies(): List<Movie>
 
     @GET("api/v1/employees")
-    suspend fun getEmployeeList(): Response<EmployeeList>
+    suspend fun getEmployees(): Response<EmployeeList>
+
 }
+

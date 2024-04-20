@@ -18,28 +18,43 @@ class UserViewModel
 
     //var userList : List<UserData> by mutableStateOf(listOf())
 
+    //var employeeList : List<Employee> by mutableStateOf(listOf())
+
     private val _userlist = MutableStateFlow<List<UserData>>(emptyList())
     val userList : StateFlow<List<UserData>> = _userlist
     var movieListResponse:List<Movie> by mutableStateOf(listOf())
 
     var errorMessage : String by mutableStateOf("")
 
+   /* private val _employeeList = MutableStateFlow<List<EmployeeData>>(emptyList())
+    val  employeeList: StateFlow<List<EmployeeData>> = _employeeList*/
 
-    private  val _employeeList = MutableStateFlow<List<Employee>>(emptyList())
-    val employeeList: StateFlow<List<Employee>> = _employeeList
+   // var employeeList : List<EmployeeData> by mutableStateOf(listOf())
 
+    private val _employeeList = MutableStateFlow<List<EmployeeData>>(emptyList())
+    val employeeList: StateFlow<List<EmployeeData>> = _employeeList
 
-    fun getEmployeeList(){
-
+    fun getEmployee(){
         viewModelScope.launch {
             try {
-                val employee = apiService.getEmployeeList()
+
+                val employee = apiService.getEmployees()
+               // _employeeList.value = employee.body()!!.data
+                //employeeList = employee.body()!!.data
+
                 _employeeList.value = employee.body()!!.data
-            }catch (e:Exception){
+
+            }catch (e: Exception){
                 errorMessage = e.message.toString()
             }
         }
     }
+
+
+
+
+
+
 
 
     fun getUserList(){
