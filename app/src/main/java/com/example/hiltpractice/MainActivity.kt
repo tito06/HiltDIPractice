@@ -88,7 +88,7 @@ fun Employee(employee:EmployeeData){
     ) {
 
         Row(modifier = Modifier
-            .padding(4.dp)
+            .padding(6.dp)
             .fillMaxSize()) {
 /*
                 Image(
